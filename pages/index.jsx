@@ -32,11 +32,7 @@ const MOCK_MEETUPS = [
 ];
 
 function HomePage() {
-  return (
-    <div>
-      <MeetUpList meetUps={MOCK_MEETUPS} />
-    </div>
-  );
+  return <MeetUpList meetUps={MOCK_MEETUPS} />;
 }
 
 export default HomePage;
