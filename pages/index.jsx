@@ -31,8 +31,27 @@ const MOCK_MEETUPS = [
   },
 ];
 
-function HomePage() {
-  return <MeetUpList meetUps={MOCK_MEETUPS} />;
+function HomePage(props) {
+  return <MeetUpList meetUps={props.meetups} />;
 }
+
+export async function getStaticProps() {
+  // Fetch data from external API
+  return {
+    props: {
+      meetups: MOCK_MEETUPS,
+    },
+    revalidate: 1,
+  };
+}
+
+// export async function getServerSideProps({ req, res }) {
+//   // // Fetch data from external API
+//   // const res = await fetch(`https://.../data`);
+//   // const data = await res.json();
+//
+//   // Pass data to the page via props
+//   return { props: { meetups: MOCK_MEETUPS } };
+// }
 
 export default HomePage;
