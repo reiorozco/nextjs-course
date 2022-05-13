@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 import Card from "../ui/card";
@@ -6,6 +7,10 @@ import styles from "./meetUpItem.module.css";
 
 function MeetUpItem({ id, image, title, address }) {
   const router = useRouter();
+
+  const myLoader = ({ src }) => {
+    return image;
+  };
 
   const showDetailsHandler = async () => {
     await router.push(`/${id}`);
@@ -15,7 +20,14 @@ function MeetUpItem({ id, image, title, address }) {
     <li className={styles.item}>
       <Card>
         <div className={styles.image}>
-          <img src={image} alt={title} />
+          <Image
+            loader={myLoader}
+            src={image}
+            alt={title}
+            width="100%"
+            height="100%"
+            layout="responsive"
+          />
         </div>
 
         <div className={styles.content}>
