@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 import Card from "../ui/card";
@@ -15,7 +16,7 @@ function MeetUpItem({ id, image, title, address }) {
     <li className={styles.item}>
       <Card>
         <div className={styles.image}>
-          <img src={image} alt={title} />
+          <Image src={image} alt={title} />
         </div>
 
         <div className={styles.content}>
