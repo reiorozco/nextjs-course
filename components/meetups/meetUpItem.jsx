@@ -27,6 +27,8 @@ function MeetUpItem({ id, image, title, address }) {
             width="100%"
             height="100%"
             layout="responsive"
+            unoptimized
+            priority
           />
         </div>
 

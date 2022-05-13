@@ -18,6 +18,7 @@ function MeetUpDetail({ image, title, address, description }) {
         height="100%"
         layout="responsive"
         objectFit="contain"
+        unoptimized
       />
 
       <h1>{title}</h1>
