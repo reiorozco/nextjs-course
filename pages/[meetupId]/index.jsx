@@ -1,18 +1,11 @@
 import React from "react";
+import axios from "axios";
 
+import { client } from "../../database/db";
 import MeetUpDetail from "../../components/meetups/meetUpDetail";
 
-const MOCK_DETAIL = {
-  id: "m1",
-  title: "A First MeetUp",
-  image:
-    "https://upload.wikimedia.org/wikipedia/commons/2/25/Lions-Gate-Mycenae.jpg",
-  address: "Some address ABC, 123 Some City",
-  description: "This is a First MeetUp!",
-};
-
 function MeetUpDetails(props) {
-  const { address, image, description, title } = props.meetups;
+  const { address, image, description, title } = props.meetUpDetail;
 
   return (
     <MeetUpDetail
@@ -25,25 +18,35 @@ function MeetUpDetails(props) {
 }
 
 export async function getStaticPaths() {
+  await client.connect();
+  const database = client.db();
+  const meetupsCollection = database.collection("meetups");
+
+  const result = await meetupsCollection
+    .find({}, { projection: { _id: 1 } })
+    .toArray();
+
+  await client.close();
+
   return {
-    paths: [
-      { params: { meetupId: "m1" } },
-      { params: { meetupId: "m2" } },
-      { params: { meetupId: "m3" } },
-    ],
+    paths: result.map((meetup) => ({
+      params: { meetupId: meetup._id.toString() },
+    })),
     fallback: true, // false or 'blocking'
   };
 }
 
 export async function getStaticProps({ params }) {
   // Fetch data from external API
-
   const { meetupId } = params;
-  console.log(meetupId);
+
+  const { data: meetUpDetail } = await axios.get(
+    `http://localhost:3000/api/meetups/${meetupId}`
+  );
 
   return {
     props: {
-      meetups: MOCK_DETAIL,
+      meetUpDetail,
     },
   };
 }

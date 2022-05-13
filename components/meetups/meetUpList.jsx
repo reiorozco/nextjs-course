@@ -8,8 +8,8 @@ function MeetUpList({ meetUps }) {
     <ul className={styles.list}>
       {meetUps.map((meetup) => (
         <MeetupItem
-          key={meetup.id}
-          id={meetup.id}
+          key={meetup._id}
+          id={meetup._id}
           image={meetup.image}
           title={meetup.title}
           address={meetup.address}

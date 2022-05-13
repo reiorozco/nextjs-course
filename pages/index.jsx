@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import MeetUpList from "../components/meetups/meetUpList";
 
@@ -37,9 +38,13 @@ function HomePage(props) {
 
 export async function getStaticProps() {
   // Fetch data from external API
+  const { data: meetups } = await axios.get(
+    "http://localhost:3000/api/meetups"
+  );
+
   return {
     props: {
-      meetups: MOCK_MEETUPS,
+      meetups,
     },
     revalidate: 1,
   };
