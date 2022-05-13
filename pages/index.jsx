@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Head from "next/head";
 
 import MeetUpList from "../components/meetups/meetUpList";
 
@@ -33,7 +34,21 @@ const MOCK_MEETUPS = [
 ];
 
 function HomePage(props) {
-  return <MeetUpList meetUps={props.meetups} />;
+  return (
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="Browse a huge of highly active React meetups!"
+        />
+      </Head>
+
+      <MeetUpList meetUps={props.meetups} />
+    </>
+  );
 }
 
 export async function getStaticProps() {

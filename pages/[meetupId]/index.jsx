@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Head from "next/head";
 
 import { client } from "../../database/db";
 import MeetUpDetail from "../../components/meetups/meetUpDetail";
@@ -8,12 +9,21 @@ function MeetUpDetails(props) {
   const { address, image, description, title } = props.meetUpDetail;
 
   return (
-    <MeetUpDetail
-      title={title}
-      address={address}
-      image={image}
-      description={description}
-    />
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content={description} />
+      </Head>
+
+      <MeetUpDetail
+        title={title}
+        address={address}
+        image={image}
+        description={description}
+      />
+    </>
   );
 }
 
