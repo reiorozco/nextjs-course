@@ -6,22 +6,20 @@ import { client } from "../../database/db";
 import MeetUpDetail from "../../components/meetups/meetUpDetail";
 
 function MeetUpDetails(props) {
-  const { address, image, description, title } = props.meetUpDetail;
-
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{props.meetUpDetail.title}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content={description} />
+        <meta name="description" content={props.meetUpDetail.description} />
       </Head>
 
       <MeetUpDetail
-        title={title}
-        address={address}
-        image={image}
-        description={description}
+        title={props.meetUpDetail.title}
+        address={props.meetUpDetail.address}
+        image={props.meetUpDetail.image}
+        description={props.meetUpDetail.description}
       />
     </>
   );
