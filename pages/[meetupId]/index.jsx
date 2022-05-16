@@ -6,20 +6,22 @@ import { client } from "../../database/db";
 import MeetUpDetail from "../../components/meetups/meetUpDetail";
 
 function MeetUpDetails(props) {
+  const { address, image, description, title } = props.meetUpDetail;
+
   return (
     <>
       <Head>
-        <title>{props.meetUpDetail.title}</title>
+        <title>{title}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content={props.meetUpDetail.description} />
+        <meta name="description" content={description} />
       </Head>
 
       <MeetUpDetail
-        title={props.meetUpDetail.title}
-        address={props.meetUpDetail.address}
-        image={props.meetUpDetail.image}
-        description={props.meetUpDetail.description}
+        title={title}
+        address={address}
+        image={image}
+        description={description}
       />
     </>
   );
@@ -40,7 +42,7 @@ export async function getStaticPaths() {
     paths: result.map((meetup) => ({
       params: { meetupId: meetup._id.toString() },
     })),
-    fallback: true, // false or 'blocking'
+    fallback: "blocking", // false or 'blocking'
   };
 }
 
