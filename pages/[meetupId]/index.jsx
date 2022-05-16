@@ -1,9 +1,9 @@
 import React from "react";
 import Head from "next/head";
-import { ObjectId } from "mongodb";
 
-import { client } from "../../database/db";
 import MeetUpDetail from "../../components/meetups/meetUpDetail";
+import { client } from "../../database/db";
+import { getMeetUps } from "../../utils/meetup";
 
 function MeetUpDetails(props) {
   const { address, image, description, title } = props.meetUpDetail;
@@ -49,16 +49,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   // Fetch data from external API
   const { meetupId } = params;
-
-  await client.connect();
-  const database = client.db();
-  const meetupsCollection = database.collection("meetups");
-
-  const meetUp = await meetupsCollection.findOne({
-    _id: new ObjectId(meetupId),
-  });
-
-  await client.close();
+  const meetUp = await getMeetUps(meetupId);
 
   return {
     props: {

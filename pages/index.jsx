@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 
 import MeetUpList from "../components/meetups/meetUpList";
-import { client } from "../database/db";
+import { getMeetUps } from "../utils/meetup";
 
 const MOCK_MEETUPS = [
   {
@@ -51,16 +51,9 @@ function HomePage(props) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // Fetch data from external API
-
-  await client.connect();
-  const database = client.db();
-  const meetupsCollection = database.collection("meetups");
-
-  const result = await meetupsCollection.find().toArray();
-
-  await client.close();
+  const result = await getMeetUps();
 
   return {
     props: {
@@ -72,7 +65,6 @@ export async function getStaticProps() {
         description: meetUp.description,
       })),
     },
-    revalidate: 1,
   };
 }
 
