@@ -1,6 +1,6 @@
 import React from "react";
-import axios from "axios";
 import Head from "next/head";
+import { ObjectId } from "mongodb";
 
 import { client } from "../../database/db";
 import MeetUpDetail from "../../components/meetups/meetUpDetail";
@@ -50,13 +50,25 @@ export async function getStaticProps({ params }) {
   // Fetch data from external API
   const { meetupId } = params;
 
-  const { data: meetUpDetail } = await axios.get(
-    `http://localhost:3000/api/meetups/${meetupId}`
-  );
+  await client.connect();
+  const database = client.db();
+  const meetupsCollection = database.collection("meetups");
+
+  const meetUp = await meetupsCollection.findOne({
+    _id: new ObjectId(meetupId),
+  });
+
+  await client.close();
 
   return {
     props: {
-      meetUpDetail,
+      meetUpDetail: {
+        _id: meetUp._id.toString(),
+        title: meetUp.title,
+        image: meetUp.image,
+        address: meetUp.address,
+        description: meetUp.description,
+      },
     },
   };
 }

@@ -1,8 +1,8 @@
 import React from "react";
-import axios from "axios";
 import Head from "next/head";
 
 import MeetUpList from "../components/meetups/meetUpList";
+import { client } from "../database/db";
 
 const MOCK_MEETUPS = [
   {
@@ -53,13 +53,24 @@ function HomePage(props) {
 
 export async function getStaticProps() {
   // Fetch data from external API
-  const { data: meetups } = await axios.get(
-    "http://localhost:3000/api/meetups"
-  );
+
+  await client.connect();
+  const database = client.db();
+  const meetupsCollection = database.collection("meetups");
+
+  const result = await meetupsCollection.find().toArray();
+
+  await client.close();
 
   return {
     props: {
-      meetups,
+      meetups: result.map((meetUp) => ({
+        _id: meetUp._id.toString(),
+        title: meetUp.title,
+        image: meetUp.image,
+        address: meetUp.address,
+        description: meetUp.description,
+      })),
     },
     revalidate: 1,
   };
